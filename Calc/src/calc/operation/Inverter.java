@@ -16,7 +16,15 @@ public class Inverter
 
     public void invert(int a)
     {
-        invert_num = -a;
+        String bin_string = Integer.toBinaryString(a);
+        StringBuilder invert_bin = new StringBuilder();
+
+        for (int i = 0; i < bin_string.length(); i++) {
+            char bit = bin_string.charAt(i);
+            invert_bin.append(bit == '0' ? '1' : '0');
+        }
+
+        invert_num = Integer.parseInt(invert_bin.toString(), 2);
     }
 
     public int getInvertNum()
