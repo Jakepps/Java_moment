@@ -51,4 +51,9 @@ abstract class Animal {
         }
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Имя: " + name + "\nТип: " + type + "\nЗвук: " + sound;
+    }
 }

@@ -10,4 +10,10 @@ class Cat extends Animal {
     void say() {
         System.out.println(getName() + " говорит " + getSound());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nЦвет глаз: " + eyeColor;
+    }
+
 }

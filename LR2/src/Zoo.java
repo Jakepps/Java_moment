@@ -11,15 +11,21 @@ public class Zoo {
         animals[6] = new Dog("Рекс", "Собака", "Ррр", 15.5);
         animals[7] = new Cat("Мурка", "Кошка", "Мур", "Зеленый");
         animals[8] = new Horse("Спринтер", "Лошадь", "Фуууу", 500, 70);
-        for (Animal animal : animals) {
-            System.out.println(animal.getType() + " по имени " + animal.getName());
-            animal.say();
-            animal.run();
-            animal.doCommand();
-            animal.eat();
-            animal.sleep();
-            System.out.println();
-        }
+
+//        for (Animal animal : animals) {
+//            System.out.println(animal.getType() + " по имени " + animal.getName());
+//            animal.say();
+//            animal.run();
+//            animal.doCommand();
+//            animal.eat();
+//            animal.sleep();
+//            System.out.println();
+//        }
+
+        System.out.println(animals[0].toString() + "\n");
+        System.out.println(animals[1].toString()+ "\n");
+        System.out.println(animals[2].toString()+ "\n");
+
         if(animals[4].equals(animals[7])){
             System.out.println("animal4 equal animal7");
         }

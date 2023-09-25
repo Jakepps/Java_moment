@@ -17,4 +17,8 @@ class Horse extends Animal {
     void run() {
         System.out.println(getName() + " бежит со скоростью " + speed + " км/ч.");
     }
+
+    public String toString() {
+        return super.toString() + "\nВес: " + weight + " кг\nСкорость: " + speed + " км/ч";
+    }
 }

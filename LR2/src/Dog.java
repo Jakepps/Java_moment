@@ -10,4 +10,8 @@ class Dog extends Animal {
     void say() {
         System.out.println(getName() + " говорит " + getSound());
     }
+
+    public String toString() {
+        return super.toString() + "\nВес: " + weight + " кг";
+    }
 }
