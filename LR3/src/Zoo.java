@@ -27,13 +27,13 @@ public class Zoo {
         System.out.println(animals[2].toString()+ "\n");
 
         if(animals[4].equals(animals[7])){
-            System.out.println("animal4 equal animal7");
+            System.out.println("animal 4 equal animal 7");
         }
-        else System.out.println("animal4 no equal animal7");
+        else System.out.println("animal 4 no equal animal 7 ");
 
         if (animals[0].equals(animals[6])){
-            System.out.println("animal0 equal animal6");
+            System.out.println("animal 0 equal animal 6");
         }
-        else System.out.println("animal0 no equal animal6");
+        else System.out.println("animal 0 no equal animal 6");
     }
 }

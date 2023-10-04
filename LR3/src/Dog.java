@@ -1,4 +1,4 @@
-class Dog extends Animal implements AnimalInfo, AnimalAction {
+class Dog extends Animal implements AnimalAction {
     private double weight;
 
     public Dog(String name, String type, String sound, double weight) {

@@ -1,4 +1,4 @@
-class Horse extends Animal implements AnimalInfo, AnimalAction{
+class Horse extends Animal implements AnimalAction {
     private double weight;
     private double speed;
 

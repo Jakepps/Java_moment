@@ -1,4 +1,4 @@
-abstract class Animal {
+abstract class Animal implements AnimalInfo {
     private String name;
     private String type;
     private String sound;

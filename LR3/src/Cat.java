@@ -1,4 +1,4 @@
-class Cat extends Animal implements AnimalAction, AnimalInfo{
+class Cat extends Animal implements AnimalAction {
     private String eyeColor;
 
     public Cat(String name, String type, String sound, String eyeColor) {
