@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class BallsGame extends JFrame {
@@ -12,7 +13,7 @@ public class BallsGame extends JFrame {
     private static final int CELL_SIZE = 40;
     private static final int NUM_ROWS = HEIGHT / CELL_SIZE;
     private static final int NUM_COLS = WIDTH / CELL_SIZE;
-    private static final Color[] BALL_COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE};
+    private static final Color[] BALL_COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW};
 
     private final Color[][] grid;
     private final Random random = new Random();
@@ -20,6 +21,7 @@ public class BallsGame extends JFrame {
     private int selectedCol = -1;
 
     public BallsGame() {
+        // определеим игровое поле
         grid = new Color[NUM_ROWS][NUM_COLS];
         initGrid();
         addMouseListener(new MouseAdapter() {
@@ -57,28 +59,6 @@ public class BallsGame extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void initGrid() {
-        for (int row = 0; row < NUM_ROWS; row++) {
-            for (int col = 0; col < NUM_COLS; col++) {
-                grid[row][col] = getRandomColor();
-            }
-        }
-    }
-
-    private Color getRandomColor() {
-        return BALL_COLORS[random.nextInt(BALL_COLORS.length)];
-    }
-
-    private boolean isValidSelection(int row, int col) {
-        return row >= 0 && row < NUM_ROWS && col >= 0 && col < NUM_COLS;
-    }
-
-    private void swapCells(int row1, int col1, int row2, int col2) {
-        Color temp = grid[row1][col1];
-        grid[row1][col1] = grid[row2][col2];
-        grid[row2][col2] = temp;
-    }
-
     private void moveBallsDown() {
         for (int col = 0; col < NUM_COLS; col++) {
             for (int row = NUM_ROWS - 1; row >= 0; row--) {
@@ -95,23 +75,88 @@ public class BallsGame extends JFrame {
         }
     }
 
-    private void checkMatches() {
-     
+    private Color getRandomColor() {
+        return BALL_COLORS[random.nextInt(BALL_COLORS.length)];
+    }
 
+    private void initGrid() {
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
+                grid[row][col] = getRandomColor();
+            }
+        }
+    }
+
+    private boolean isValidSelection(int row, int col) {
+        return row >= 0 && row < NUM_ROWS && col >= 0 && col < NUM_COLS;
+    }
+
+    private void swapCells(int row1, int col1, int row2, int col2) {
+        Color temp = grid[row1][col1];
+        grid[row1][col1] = grid[row2][col2];
+        grid[row2][col2] = temp;
+    }
+
+    private void checkMatches() {
+        // горизонтальные совпадений
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS - 4; col++) {
+                Color currentColor = grid[row][col];
+                if (currentColor != null) {
+                    boolean isMatch = true;
+                    for (int i = 1; i < 5; i++) {
+                        if (grid[row][col + i] == null || !grid[row][col + i].equals(currentColor)) {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+                    if (isMatch) {
+                        for (int i = 0; i < 5; i++) {
+                            grid[row][col + i] = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        // вертикальные совпадений
+        for (int row = 0; row < NUM_ROWS - 4; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
+                Color currentColor = grid[row][col];
+                if (currentColor != null) {
+                    boolean isMatch = true;
+                    for (int i = 1; i < 5; i++) {
+                        if (grid[row + i][col] == null || !grid[row + i][col].equals(currentColor)) {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+                    if (isMatch) {
+                        for (int i = 0; i < 5; i++) {
+                            grid[row + i][col] = null;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = buffer.createGraphics();
+
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 Color ballColor = grid[row][col];
                 if (ballColor != null) {
-                    g.setColor(ballColor);
-                    g.fillOval(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    g2d.setColor(ballColor);
+                    g2d.fillOval(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
             }
         }
+
+        g.drawImage(buffer, 0, 0, this);
     }
 
     public static void main(String[] args) {
