@@ -19,6 +19,7 @@ public class BallsGame extends JFrame {
     private final Random random = new Random();
     private int selectedRow = -1;
     private int selectedCol = -1;
+    private boolean flashing = false;
 
     public BallsGame() {
         // определеим игровое поле
@@ -57,6 +58,15 @@ public class BallsGame extends JFrame {
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        Timer flashTimer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flashing = !flashing;
+                repaint();
+            }
+        });
+        flashTimer.start();
     }
 
     private void moveBallsDown() {
@@ -153,6 +163,19 @@ public class BallsGame extends JFrame {
                     g2d.setColor(ballColor);
                     g2d.fillOval(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
+            }
+        }
+
+        // Моргание выбранного шара
+        if (selectedRow != -1 && selectedCol != -1) {
+            Color selectedColor = grid[selectedRow][selectedCol];
+            if (selectedColor != null) {
+                if (flashing) {
+                    g2d.setColor(selectedColor);
+                } else {
+                    g2d.setColor(Color.WHITE);
+                }
+                g2d.fillOval(selectedCol * CELL_SIZE, selectedRow * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
 
