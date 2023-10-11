@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+//TODO прочитать про адаптары, про способы привязки обработчика с событиями
+
 public class BallsGame extends JFrame {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
