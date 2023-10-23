@@ -26,7 +26,7 @@ public class LotoGame extends JFrame {
         setSize(400, 400);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(boardSize, boardSize));
-        setTitle("Игра Лото");
+        setTitle("Лото");
 
         for (int i = 0; i < boardSize * boardSize; i++) {
             JButton button = new JButton();
@@ -35,16 +35,16 @@ public class LotoGame extends JFrame {
             board.addTile(new LotoTile(i + 1));
         }
 
-        gameTimer = new Timer(10, new ActionListener() {
+        gameTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Player currentPlayer = players.get(currentPlayerIndex);
                 if (!currentPlayer.isFinished()) {
                     currentPlayer.placeTile();
                     updateBoard();
-                } else {
-                    currentPlayerIndex++;
                 }
+
+                currentPlayerIndex++;
 
                 if (currentPlayerIndex >= players.size()) {
                     currentPlayerIndex = 0;
