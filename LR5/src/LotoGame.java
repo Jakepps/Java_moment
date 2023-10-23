@@ -46,8 +46,11 @@ public class LotoGame extends JFrame {
                     currentPlayerIndex++;
                 }
 
-                if (currentPlayerIndex >= players.size() || players.get(players.size() - 1).isFinished()) {
-                    // Игра завершена
+                if (currentPlayerIndex >= players.size()) {
+                    currentPlayerIndex = 0;
+                }
+
+                if (board.isFull()) {
                     gameTimer.stop();
                     announceWinner();
                 }
@@ -119,11 +122,15 @@ class Player {
     }
 
     public void placeTile() {
-        int tileNumber = random.nextInt(board.getSize()) + 1;
-        if (board.placeTile(tileNumber, color)) {
-            tilesPlaced++;
-            System.out.println(name + ", фишка " + tileNumber);
-        }
+        int tileNumber;
+        boolean tilePlaced;
+        do {
+            tileNumber = random.nextInt(board.getSize()) + 1;
+            tilePlaced = board.placeTile(tileNumber, color);
+        } while (!tilePlaced);
+
+        tilesPlaced++;
+        System.out.println(name + ", фишка " + tileNumber);
     }
 }
 
@@ -156,6 +163,15 @@ class Board {
 
     public LotoTile getTile(int index) {
         return tiles.get(index);
+    }
+
+    public boolean isFull() {
+        for (LotoTile tile : tiles) {
+            if (tile.getColor() == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
