@@ -41,4 +41,10 @@ class Board {
         }
         return true;
     }
+
+    public void clear() {
+        for (LotoTile tile : tiles) {
+            tile.setColor(null);
+        }
+    }
 }

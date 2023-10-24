@@ -28,6 +28,10 @@ class Player {
         return tilesPlaced;
     }
 
+    public void reset() {
+        tilesPlaced = 0;
+    }
+
     public void placeTile() {
         int tileNumber;
         boolean tilePlaced;
