@@ -11,7 +11,6 @@ import java.util.Random;
 public class LotoGame extends JFrame {
     private Board board;
     private List<Player> players;
-    private int currentPlayerIndex;
     private final int boardSize = 5;
     private Timer gameTimer;
 
@@ -25,7 +24,6 @@ public class LotoGame extends JFrame {
         players.add(new Player("Синий", Color.BLUE, board));
         players.add(new Player("Зеленый", Color.GREEN, board));
         players.add(new Player("Желтый", Color.YELLOW, board));
-        currentPlayerIndex = 0;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
@@ -55,17 +53,15 @@ public class LotoGame extends JFrame {
         gameTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Player currentPlayer = players.get(currentPlayerIndex);
-                if (!currentPlayer.isFinished()) {
-                    currentPlayer.placeTile();
-                    updateBoard();
-                }
+                Random random = new Random();
+                int randomIndex;
+                do {
+                    randomIndex = random.nextInt(players.size());
+                } while (players.get(randomIndex).isFinished());
 
-                currentPlayerIndex++;
-
-                if (currentPlayerIndex >= players.size()) {
-                    currentPlayerIndex = 0;
-                }
+                Player currentPlayer = players.get(randomIndex);
+                currentPlayer.placeTile();
+                updateBoard();
 
                 if (board.isFull()) {
                     gameTimer.stop();
@@ -93,10 +89,14 @@ public class LotoGame extends JFrame {
             if (tile.getColor() != null) {
                 button.setBackground(tile.getColor());
                 button.setText(String.valueOf(tile.getNumber()));
+                button.setOpaque(true);
+                button.setBorderPainted(false);
             }
             else {
                 button.setBackground(null);
                 button.setText("");
+                button.setOpaque(false);
+                button.setBorderPainted(true);
             }
         }
     }
@@ -118,7 +118,6 @@ public class LotoGame extends JFrame {
 
     private void resetGame() {
         board.clear();
-        currentPlayerIndex = 0;
         for (Player player : players) {
             player.reset();
         }
