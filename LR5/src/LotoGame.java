@@ -60,8 +60,10 @@ public class LotoGame extends JFrame {
                 } while (players.get(randomIndex).isFinished());
 
                 Player currentPlayer = players.get(randomIndex);
-                currentPlayer.placeTile();
-                updateBoard();
+                new Thread(() -> {
+                    currentPlayer.placeTile();
+                    SwingUtilities.invokeLater(() -> updateBoard());
+                }).start();
 
                 if (board.isFull()) {
                     gameTimer.stop();
