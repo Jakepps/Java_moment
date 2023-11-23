@@ -1,7 +1,8 @@
+import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-class Player {
+class Player implements Runnable {
     private String name;
     private Color color;
     private Board board;
@@ -32,15 +33,22 @@ class Player {
         tilesPlaced = 0;
     }
 
-    public void placeTile() {
-        int tileNumber;
-        boolean tilePlaced;
-        do {
-            tileNumber = random.nextInt(board.getSize()) + 1;
-            tilePlaced = board.placeTile(tileNumber, color);
-        } while (!tilePlaced);
+    @Override
+    public void run() {
+            int tileNumber;
+            boolean tilePlaced;
+            do {
+                tileNumber = random.nextInt(board.getSize()) + 1;
+                tilePlaced = board.placeTile(tileNumber, color);
+            } while (!tilePlaced);
 
-        tilesPlaced++;
-        System.out.println(name + ", фишка " + tileNumber);
+            tilesPlaced++;
+            System.out.println(name + ", фишка " + tileNumber);
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
     }
 }

@@ -50,7 +50,7 @@ public class LotoGame extends JFrame {
             });
         }
 
-        gameTimer = new Timer(1000, new ActionListener() {
+        gameTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random random = new Random();
@@ -60,10 +60,21 @@ public class LotoGame extends JFrame {
                 } while (players.get(randomIndex).isFinished());
 
                 Player currentPlayer = players.get(randomIndex);
-                new Thread(() -> {
-                    currentPlayer.placeTile();
-                    SwingUtilities.invokeLater(() -> updateBoard());
-                }).start();
+
+                SwingWorker<Void, Void> worker = new SwingWorker<>() {
+                    @Override
+                    protected Void doInBackground() {
+                        currentPlayer.run();
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        SwingUtilities.invokeLater(LotoGame.this::updateBoard);
+                    }
+                };
+
+                worker.execute();
 
                 if (board.isFull()) {
                     gameTimer.stop();
@@ -115,7 +126,9 @@ public class LotoGame extends JFrame {
             }
         }
 
-        JOptionPane.showMessageDialog(this, "Игра окончена! Победил игрок " + winner, "Победитель", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(
+                this, "Игра окончена! Победил " + winner + " игрок" + " и набрал " + maxTilesPlaced + " очков.",
+                "Победитель", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void resetGame() {
